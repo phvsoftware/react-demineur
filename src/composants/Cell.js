@@ -7,7 +7,14 @@ import flag from "../images/drapeau.bmp";
 
 const Cell = props => {
   return (
-    <div className={props.reveled ? "cell flat-border" : "cell edge-border"}>
+    <div
+      className={props.reveled ? "cell flat-border" : "cell edge-border"}
+      onClick={() => props.onLeftClick(props.posX, props.posY)}
+      onContextMenu={event => {
+        event.preventDefault();
+        props.onRightClick(props.posX, props.posY);
+      }}
+    >
       {props.reveled && props.bomb && <img src={mine_gris} alt="" />}
       {!props.reveled && props.flag && <img src={flag} alt="" />}
       {props.reveled && props.bomb && props.flag && <img src={flag} alt="" />}
