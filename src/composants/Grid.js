@@ -13,7 +13,7 @@ const Grid = () => {
     let colGrid = [];
     for (let y = 0; y < nbRow; y++) {
       for (let x = 0; x < nbCol; x++) {
-        const cell = { x: x, y: y, bomb: false, revealed: false, flag: false, count: 0 };
+        const cell = { x: x, y: y, bomb: false, revealed: false, flag: false, count: 0, bombclicked: false };
         colGrid.push(cell);
       }
       tempGrid.push(colGrid);
@@ -32,7 +32,18 @@ const Grid = () => {
       do {
         x = Math.round(Math.random() * (nbCol - 1));
         y = Math.round(Math.random() * (nbRow - 1));
-      } while ((x === xPos && y === yPos) || bombs.find(bomb => bomb.x === x && bomb.y === y) !== undefined);
+      } while (
+        (x === xPos && y === yPos) ||
+        (x === xPos - 1 && y === yPos - 1) ||
+        (x === xPos && y === yPos - 1) ||
+        (x === xPos + 1 && y === yPos - 1) ||
+        (x === xPos - 1 && y === yPos) ||
+        (x === xPos + 1 && y === yPos) ||
+        (x === xPos - 1 && y === yPos + 1) ||
+        (x === xPos && y === yPos + 1) ||
+        (x === xPos + 1 && y === yPos + 1) ||
+        bombs.find(bomb => bomb.x === x && bomb.y === y) !== undefined
+      );
       const pos = { x, y };
       bombs.push(pos);
     }
@@ -47,7 +58,8 @@ const Grid = () => {
           bomb: bombs.find(bomb => bomb.x === x && bomb.y === y) !== undefined,
           revealed: x === xPos && y === yPos,
           flag: false,
-          count: 0
+          count: 0,
+          bombclicked: false
         };
         colGrid.push(cell);
       }
@@ -55,6 +67,23 @@ const Grid = () => {
       colGrid = [];
     }
     // calcule les compteurs de bombes
+    for (let y = 0; y < nbRow; y++) {
+      for (let x = 0; x < nbCol; x++) {
+        if (!tempGrid[y][x].bomb) {
+          let count = 0;
+          for (let y2 = y - 1; y2 <= y + 1; y2++) {
+            for (let x2 = x - 1; x2 <= x + 1; x2++) {
+              if (x2 >= 0 && x2 < nbCol && y2 >= 0 && y2 < nbRow && (x2 !== x || y2 !== y)) {
+                if (tempGrid[y2][x2].bomb) {
+                  count++;
+                }
+              }
+            }
+          }
+          tempGrid[y][x].count = count;
+        }
+      }
+    }
     return tempGrid;
   };
 
@@ -64,7 +93,9 @@ const Grid = () => {
   const onLeftClick = (x, y) => {
     // au 1er click on remplit la grille
     if (!firstClick) {
-      setGrid(fixBomb(x, y));
+      const tempGrid = fixBomb(x, y);
+      recurseReveale(tempGrid, x, y);
+      setGrid(tempGrid);
       setFirstClick(true);
     } else {
       const tempGrid = [...grid];
@@ -72,7 +103,22 @@ const Grid = () => {
       const cell = tempGrid[y][x];
       // on clique sur une case vide non révélée et sans drapeau
       if (!cell.bomb && !cell.revealed && !cell.flag) {
-        recurseReveale(tempGrid, x, y);
+        if (cell.count === 0) {
+          recurseReveale(tempGrid, x, y);
+        } else {
+          tempGrid[y][x].revealed = true;
+        }
+        setGrid(tempGrid);
+      } else if (tempGrid[y][x].bomb) {
+        // on clique sur une mine !
+        tempGrid[y][x].bombclicked = true;
+        // on révèle tout !
+        for (let y2 = 0; y2 < nbRow; y2++) {
+          for (let x2 = 0; x2 < nbCol; x2++) {
+            tempGrid[y2][x2].revealed = true;
+          }
+        }
+
         setGrid(tempGrid);
       }
     }
@@ -80,12 +126,27 @@ const Grid = () => {
 
   const recurseReveale = (tab, x, y) => {
     tab[y][x].revealed = true;
+    for (let y2 = y - 1; y2 <= y + 1; y2++) {
+      for (let x2 = x - 1; x2 <= x + 1; x2++) {
+        if (x2 >= 0 && x2 < nbCol && y2 >= 0 && y2 < nbRow && (x2 !== x || y2 !== y)) {
+          if (!tab[y2][x2].revealed && !tab[y2][x2].bomb && !tab[y2][x2].flag) {
+            if (tab[y2][x2].count === 0) {
+              recurseReveale(tab, x2, y2);
+            } else {
+              tab[y2][x2].revealed = true;
+            }
+          }
+        }
+      }
+    }
   };
 
   const onRightClick = (x, y) => {
     // au 1er click on remplit la grille
     if (!firstClick) {
-      setGrid(fixBomb(x, y));
+      const tempGrid = fixBomb(x, y);
+      recurseReveale(tempGrid, x, y);
+      setGrid(tempGrid);
       setFirstClick(true);
     } else {
     }
@@ -106,6 +167,7 @@ const Grid = () => {
                   bomb={cell.bomb}
                   flag={cell.flag}
                   count={cell.count}
+                  bombclicked={cell.bombclicked}
                   onLeftClick={onLeftClick}
                   onRightClick={onRightClick}
                 />

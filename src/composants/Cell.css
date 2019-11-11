@@ -26,6 +26,8 @@
   left: 16px;
   top: -16px;
   font-size: 24px;
+  cursor: default;
+  user-select: none;
 }
 
 .color1 {
