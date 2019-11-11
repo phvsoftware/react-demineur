@@ -13,7 +13,7 @@ const Grid = () => {
     let colGrid = [];
     for (let y = 0; y < nbRow; y++) {
       for (let x = 0; x < nbCol; x++) {
-        const cell = { x: x, y: y, bomb: false, reveled: false, flag: false, count: 0 };
+        const cell = { x: x, y: y, bomb: false, revealed: false, flag: false, count: 0 };
         colGrid.push(cell);
       }
       tempGrid.push(colGrid);
@@ -45,7 +45,7 @@ const Grid = () => {
           x: x,
           y: y,
           bomb: bombs.find(bomb => bomb.x === x && bomb.y === y) !== undefined,
-          reveled: x === xPos && y === yPos,
+          revealed: x === xPos && y === yPos,
           flag: false,
           count: 0
         };
@@ -62,14 +62,28 @@ const Grid = () => {
   const [firstClick, setFirstClick] = useState(false);
 
   const onLeftClick = (x, y) => {
+    // au 1er click on remplit la grille
     if (!firstClick) {
       setGrid(fixBomb(x, y));
       setFirstClick(true);
     } else {
+      const tempGrid = [...grid];
+      // récupère la case qu'on a cliqué
+      const cell = tempGrid[y][x];
+      // on clique sur une case vide non révélée et sans drapeau
+      if (!cell.bomb && !cell.revealed && !cell.flag) {
+        recurseReveale(tempGrid, x, y);
+        setGrid(tempGrid);
+      }
     }
   };
 
+  const recurseReveale = (tab, x, y) => {
+    tab[y][x].revealed = true;
+  };
+
   const onRightClick = (x, y) => {
+    // au 1er click on remplit la grille
     if (!firstClick) {
       setGrid(fixBomb(x, y));
       setFirstClick(true);
@@ -88,7 +102,7 @@ const Grid = () => {
                   key={index}
                   posX={cell.x}
                   posY={cell.y}
-                  reveled={cell.reveled}
+                  revealed={cell.revealed}
                   bomb={cell.bomb}
                   flag={cell.flag}
                   count={cell.count}
