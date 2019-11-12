@@ -10,6 +10,12 @@ const Cell = props => {
     <div
       className={props.revealed ? "cell flat-border" : "cell edge-border"}
       onClick={() => props.onLeftClick(props.posX, props.posY)}
+      onMouseDown={event => {
+        if (event.nativeEvent.which === 1 && !props.revealed) props.setSmiley(2);
+      }}
+      onMouseUp={event => {
+        if (event.nativeEvent.which === 1) props.setSmiley(1);
+      }}
       onContextMenu={event => {
         event.preventDefault();
         props.onRightClick(props.posX, props.posY);

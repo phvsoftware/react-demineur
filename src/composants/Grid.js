@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./Grid.css";
 import Cell from "./Cell";
 
-const Grid = () => {
-  const nbBomb = 10;
+const Grid = ({ setSmiley, setGame }) => {
+  const nbBomb = 2;
   const nbCol = 9;
   const nbRow = 9;
 
@@ -107,6 +107,25 @@ const Grid = () => {
           recurseReveale(tempGrid, x, y);
         } else {
           tempGrid[y][x].revealed = true;
+          // est ce qu'on a gagné ?
+          let won = true;
+          for (let y2 = 0; y2 < nbRow; y2++) {
+            for (let x2 = 0; x2 < nbCol; x2++) {
+              if (!tempGrid[y2][x2].revealed && (!tempGrid[y2][x2].bomb || !tempGrid[y2][x2].flag)) {
+                won = false;
+                break;
+              }
+            }
+            if (!won) {
+              break;
+            }
+          }
+          // on a gagné
+          if (won) {
+            setGame(1);
+            setSmiley(4);
+            console.log("gagné");
+          }
         }
         setGrid(tempGrid);
       } else if (tempGrid[y][x].bomb && !cell.revealed && !cell.flag) {
@@ -119,6 +138,10 @@ const Grid = () => {
           }
         }
         setGrid(tempGrid);
+        // on a perdu
+        setGame(-1);
+        setSmiley(3);
+        console.log("perdu");
       }
     }
   };
@@ -155,6 +178,25 @@ const Grid = () => {
       if (!cell.revealed) {
         tempGrid[y][x].flag = !tempGrid[y][x].flag;
         setGrid(tempGrid);
+        // est ce qu'on a gagné ?
+        let won = true;
+        for (let y2 = 0; y2 < nbRow; y2++) {
+          for (let x2 = 0; x2 < nbCol; x2++) {
+            if (!tempGrid[y2][x2].revealed && (!tempGrid[y2][x2].bomb || !tempGrid[y2][x2].flag)) {
+              won = false;
+              break;
+            }
+          }
+          if (!won) {
+            break;
+          }
+        }
+        // on a gagné
+        if (won) {
+          setGame(1);
+          setSmiley(4);
+          console.log("gagné");
+        }
       }
     }
   };
@@ -177,6 +219,7 @@ const Grid = () => {
                   bombclicked={cell.bombclicked}
                   onLeftClick={onLeftClick}
                   onRightClick={onRightClick}
+                  setSmiley={setSmiley}
                 />
               );
             })}
