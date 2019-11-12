@@ -109,8 +109,8 @@ const Grid = () => {
           tempGrid[y][x].revealed = true;
         }
         setGrid(tempGrid);
-      } else if (tempGrid[y][x].bomb) {
-        // on clique sur une mine !
+      } else if (tempGrid[y][x].bomb && !cell.revealed && !cell.flag) {
+        // on clique sur une mine ! (seulement si pas de drapeau)
         tempGrid[y][x].bombclicked = true;
         // on révèle tout !
         for (let y2 = 0; y2 < nbRow; y2++) {
@@ -118,7 +118,6 @@ const Grid = () => {
             tempGrid[y2][x2].revealed = true;
           }
         }
-
         setGrid(tempGrid);
       }
     }
@@ -149,6 +148,14 @@ const Grid = () => {
       setGrid(tempGrid);
       setFirstClick(true);
     } else {
+      const tempGrid = [...grid];
+      // récupère la case qu'on a cliqué
+      const cell = tempGrid[y][x];
+      // on clique sur une non révélée
+      if (!cell.revealed) {
+        tempGrid[y][x].flag = !tempGrid[y][x].flag;
+        setGrid(tempGrid);
+      }
     }
   };
 

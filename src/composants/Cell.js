@@ -20,7 +20,7 @@ const Cell = props => {
       {props.revealed && props.bomb && props.flag && <img src={flag} alt="" />}
       {props.revealed && !props.bomb && props.flag && <img src={mine_barree} alt="" />}
       {props.revealed && props.bomb && props.bombclicked && !props.flag && <img src={mine_rouge} alt="" />}
-      {props.revealed && props.count > 0 && <h3 className={"color" + props.count}>{props.count}</h3>}
+      {props.revealed && !props.flag && props.count > 0 && <h3 className={"color" + props.count}>{props.count}</h3>}
     </div>
   );
 };
