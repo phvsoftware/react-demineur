@@ -3,7 +3,7 @@ import "./Grid.css";
 import Cell from "./Cell";
 
 const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft }) => {
-  const nbBomb = 2;
+  const nbBomb = 10;
   const nbCol = 9;
   const nbRow = 9;
 
