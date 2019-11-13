@@ -12,7 +12,7 @@ import digit8 from "../images/digit8.bmp";
 import digit9 from "../images/digit9.bmp";
 
 const Counter = ({ value }) => {
-  const num1 = Math.round(value / 100);
+  const num1 = Math.floor(value / 100);
   const num2 = Math.floor((value - num1 * 100) / 10);
   const num3 = value % 10;
 
