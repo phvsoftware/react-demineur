@@ -12,7 +12,7 @@
 .edge-border {
   border: 2px solid;
   border-color: white #808080 #808080 white;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .cell img {
@@ -26,7 +26,7 @@
   left: 16px;
   top: -16px;
   font-size: 24px;
-  cursor: default;
+  /* cursor: default; */
   user-select: none;
 }
 

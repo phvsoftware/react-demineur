@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Grid.css";
 import Cell from "./Cell";
 
-const Grid = ({ setSmiley, setGame }) => {
+const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft }) => {
   const nbBomb = 2;
   const nbCol = 9;
   const nbRow = 9;
+
+  useEffect(() => {
+    if (game === 0) {
+      setGrid(emptyGrid());
+      setFirstClick(false);
+    }
+  }, [game]);
 
   // initialise une grille sans bombes pour le 1er click
   const emptyGrid = () => {
@@ -25,6 +32,8 @@ const Grid = ({ setSmiley, setGame }) => {
   // initialise la grille en rajoutant les bombes après le 1er click, on fixe aussi les compteurs
   const fixBomb = (xPos, yPos) => {
     // tableaux de x bombes, pas à la place où on a cliqué
+    setBombLeft(nbBomb);
+    setGame(1);
     let bombs = [];
     for (let i = 0; i < nbBomb; i++) {
       let x = 0;
@@ -91,6 +100,8 @@ const Grid = ({ setSmiley, setGame }) => {
   const [firstClick, setFirstClick] = useState(false);
 
   const onLeftClick = (x, y) => {
+    // si on a gagné ou perdu, on peut plus cliquer
+    if (game === -1 || game === 2) return;
     // au 1er click on remplit la grille
     if (!firstClick) {
       const tempGrid = fixBomb(x, y);
@@ -122,9 +133,9 @@ const Grid = ({ setSmiley, setGame }) => {
           }
           // on a gagné
           if (won) {
-            setGame(1);
+            setGame(2);
             setSmiley(4);
-            console.log("gagné");
+            console.log("gagné 1");
           }
         }
         setGrid(tempGrid);
@@ -164,6 +175,8 @@ const Grid = ({ setSmiley, setGame }) => {
   };
 
   const onRightClick = (x, y) => {
+    // si on a gagné ou perdu, on peut plus cliquer
+    if (game === -1 || game === 2) return;
     // au 1er click on remplit la grille
     if (!firstClick) {
       const tempGrid = fixBomb(x, y);
@@ -175,9 +188,16 @@ const Grid = ({ setSmiley, setGame }) => {
       // récupère la case qu'on a cliqué
       const cell = tempGrid[y][x];
       // on clique sur une non révélée
-      if (!cell.revealed) {
+      if (!cell.revealed && ((!tempGrid[y][x].flag && bombLeft > 0) || tempGrid[y][x].flag)) {
+        // on pose / enlève un drapeau
+        if (!tempGrid[y][x].flag) {
+          setBombLeft(bombLeft - 1);
+        } else {
+          setBombLeft(bombLeft + 1);
+        }
         tempGrid[y][x].flag = !tempGrid[y][x].flag;
         setGrid(tempGrid);
+
         // est ce qu'on a gagné ?
         let won = true;
         for (let y2 = 0; y2 < nbRow; y2++) {
@@ -193,9 +213,9 @@ const Grid = ({ setSmiley, setGame }) => {
         }
         // on a gagné
         if (won) {
-          setGame(1);
+          setGame(2);
           setSmiley(4);
-          console.log("gagné");
+          console.log("gagné 2");
         }
       }
     }
@@ -220,6 +240,7 @@ const Grid = ({ setSmiley, setGame }) => {
                   onLeftClick={onLeftClick}
                   onRightClick={onRightClick}
                   setSmiley={setSmiley}
+                  game={game}
                 />
               );
             })}

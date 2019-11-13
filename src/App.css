@@ -1,3 +1,7 @@
+#root {
+  height: 95vh;
+}
+
 .App {
   display: flex;
   flex-direction: column;
@@ -5,6 +9,11 @@
   align-items: center;
   background-color: rgb(190, 190, 190);
   padding: 30px;
+  cursor: url("./images/amiga-pointer.cur"), auto;
+  background-image: url("./images/amiga-screen1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
 }
 
 .grid-container {
@@ -15,4 +24,63 @@
   border: 2px solid;
   border-color: white #808080 #808080 white;
   padding: 14px;
+  background-color: rgb(190, 190, 190);
+}
+
+.amiga-window-outer {
+  border: 2px solid;
+  border-color: white rgb(4, 16, 28) rgb(4, 16, 28) white;
+  padding: 30px 5px 5px 5px;
+  background-color: rgb(130, 141, 161);
+}
+
+.amiga-window-title {
+  background-color: rgb(130, 141, 161);
+  border-bottom: 2px solid rgb(4, 16, 28);
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
+  height: 20px;
+}
+
+.amiga-close-window-outer {
+  border-right: 3px solid rgb(4, 16, 28);
+  border-bottom: 3px solid rgb(4, 16, 28);
+  width: 50px;
+  height: 49px;
+  padding: 0;
+  margin: 0;
+  left: -5px;
+  top: -30px;
+  position: absolute;
+}
+
+.amiga-close-window-outer-border {
+  position: absolute;
+  border-left: 2px solid rgb(248, 255, 255);
+  width: 3px;
+  height: 50px;
+  left: 52.5px;
+  top: 0px;
+}
+
+.amiga-close-window-inner {
+  background-color: rgb(248, 255, 255);
+  border: 3px solid rgb(4, 16, 28);
+  position: absolute;
+  width: 12px;
+  height: 20px;
+  left: 16px;
+  top: 12px;
+}
+
+.amiga-window-title-text {
+  left: 60px;
+  top: -22px;
+  position: absolute;
+  font-size: 26px;
+  font-weight: 500;
 }

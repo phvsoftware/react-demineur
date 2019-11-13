@@ -5,13 +5,13 @@ import smiley2 from "../images/smiley2.bmp";
 import smiley3 from "../images/smiley3.bmp";
 import smiley4 from "../images/smiley4.bmp";
 
-const ButtonStart = ({ smileyIndex }) => {
+const ButtonStart = ({ smileyIndex, onClickbutton }) => {
   const [buttonUp, setButtonUp] = useState(true);
 
   return (
     <div
       className={buttonUp ? "button-start" : "button-start-down"}
-      onClick={() => console.log("click start")}
+      onClick={onClickbutton}
       onMouseDown={event => {
         if (event.nativeEvent.which === 1) setButtonUp(false);
       }}

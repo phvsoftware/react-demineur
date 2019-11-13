@@ -3,12 +3,12 @@ import "./Score.css";
 import Counter from "./Counter";
 import ButtonStart from "./ButtonStart";
 
-const Score = ({ mineCount, secCount, onStartButton, smiley }) => {
+const Score = ({ onStartButton, smiley, bombLeft, secElapsed }) => {
   return (
     <div className="score-container">
-      <Counter value={9} />
-      <ButtonStart smileyIndex={smiley} />
-      <Counter value={10} />
+      <Counter value={bombLeft} />
+      <ButtonStart smileyIndex={smiley} onClickbutton={onStartButton} />
+      <Counter value={secElapsed} />
     </div>
   );
 };
