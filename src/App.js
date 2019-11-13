@@ -20,6 +20,17 @@ function App() {
     }
   }, [game]);
 
+  useEffect(() => {
+    // si on gagne sur mobile après un appui long pour mettre un drapeau, on a un setTimeout qui va remettre le smiley à 1 alors qu'on a gagné
+    if (smiley === 1) {
+      if (game === 2) {
+        setSmiley(4);
+      } else if (game === -1) {
+        setSmiley(3);
+      }
+    }
+  }, [smiley]);
+
   const onStartButton = () => {
     stopTimer();
     setSmiley(1);
@@ -46,14 +57,16 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App disable-selection">
       <div className="amiga-window-outer">
         <div className="amiga-window-title">
           <div className="amiga-close-window-outer">
             <div className="amiga-close-window-inner"></div>
             <div className="amiga-close-window-outer-border"></div>
           </div>
-          <div className="amiga-window-title-text">Amiga Démineur par PhV</div>
+          <div className="amiga-window-title-text">
+            Amiga Démineur<span className="micro-text">© 2019 PhvSoftware</span>
+          </div>
         </div>
         <div className="grid-container">
           <Score onStartButton={onStartButton} smiley={smiley} bombLeft={bombLeft} secElapsed={secElapsed} />

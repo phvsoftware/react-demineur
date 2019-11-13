@@ -5,7 +5,27 @@ import mine_rouge from "../images/mine_rouge.bmp";
 import mine_barree from "../images/mine_barree.bmp";
 import flag from "../images/drapeau.bmp";
 
+let buttonPressTimer = null;
+
 const Cell = props => {
+  const handleButtonPress = () => {
+    if (props.game === 1) {
+      buttonPressTimer = setTimeout(() => {
+        // fait clignoter le smiley pour qu'on voit que le drapeau a été posé sous son doigt
+        props.setSmiley(2);
+        const smileyTimer = setTimeout(() => {
+          props.setSmiley(1);
+          clearTimeout(smileyTimer);
+        }, 200);
+        props.onRightClick(props.posX, props.posY);
+      }, 1000);
+    }
+  };
+
+  const handleButtonRelease = () => {
+    clearTimeout(buttonPressTimer);
+  };
+
   return (
     <div
       className={props.revealed ? "cell flat-border" : "cell edge-border"}
@@ -15,6 +35,11 @@ const Cell = props => {
       }}
       onMouseUp={event => {
         if (props.game === 1 && event.nativeEvent.which === 1) props.setSmiley(1);
+      }}
+      onTouchStart={handleButtonPress}
+      onTouchEnd={handleButtonRelease}
+      onMouseLeave={event => {
+        if (props.game === 1) props.setSmiley(1);
       }}
       onContextMenu={event => {
         event.preventDefault();
