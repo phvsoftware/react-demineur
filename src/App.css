@@ -30,12 +30,12 @@
 .amiga-window-outer {
   border: 2px solid;
   border-color: white rgb(4, 16, 28) rgb(4, 16, 28) white;
-  padding: 30px 5px 5px 5px;
-  background-color: rgb(130, 141, 161);
+  padding: 20px 5px 5px 5px;
+  background-color: #718bbe;
 }
 
 .amiga-window-title {
-  background-color: rgb(130, 141, 161);
+  background-color: #718bbe;
   border-bottom: 2px solid rgb(4, 16, 28);
   padding: 0;
   display: flex;
@@ -49,12 +49,12 @@
 .amiga-close-window-outer {
   border-right: 3px solid rgb(4, 16, 28);
   border-bottom: 3px solid rgb(4, 16, 28);
-  width: 50px;
-  height: 49px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   margin: 0;
   left: -5px;
-  top: -30px;
+  top: -20px;
   position: absolute;
 }
 
@@ -62,8 +62,8 @@
   position: absolute;
   border-left: 2px solid rgb(248, 255, 255);
   width: 3px;
-  height: 50px;
-  left: 52.5px;
+  height: 40px;
+  left: 42.5px;
   top: 0px;
 }
 
@@ -71,17 +71,17 @@
   background-color: rgb(248, 255, 255);
   border: 3px solid rgb(4, 16, 28);
   position: absolute;
-  width: 12px;
-  height: 20px;
-  left: 16px;
-  top: 12px;
+  width: 9px;
+  height: 16px;
+  left: 13px;
+  top: 10px;
 }
 
 .amiga-window-title-text {
-  left: 60px;
-  top: -22px;
+  left: 48px;
+  top: -18px;
   position: absolute;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 500;
 }
 
