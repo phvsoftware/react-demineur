@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Grid from "./composants/Grid";
 import Score from "./composants/Score";
+import amigaTitle from "./images/amiga-title.png";
+import windowsTitle from "./images/windows-title.png";
 
 let interval = null;
 let timer = 0;
@@ -11,6 +13,8 @@ function App() {
   const [bombLeft, setBombLeft] = useState(0);
   const [secElapsed, setSecElapsed] = useState(0);
   const [smiley, setSmiley] = useState(1);
+  const [theme, setTheme] = useState("amiga");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (game === 1) {
@@ -57,18 +61,41 @@ function App() {
   };
 
   return (
-    <div className="App disable-selection">
-      <div className="amiga-window-outer">
-        <div className="amiga-window-title">
-          <div className="amiga-close-window-outer">
-            <div className="amiga-close-window-inner"></div>
-            <div className="amiga-close-window-outer-border"></div>
-          </div>
-          <div className="amiga-window-title-text">
+    <div className={theme + "-app disable-selection"}>
+      <div className={theme + "-window-outer"}>
+        <div className={theme + "-window-title"}>
+          <div
+            className="invisible-menu"
+            onClick={event => {
+              setMenuOpen(!menuOpen);
+            }}
+          ></div>
+          {menuOpen && (
+            <div className="amiga-menu">
+              <a
+                onClick={() => {
+                  setMenuOpen(false);
+                  setTheme("windows");
+                }}
+              >
+                Thème Windows 3.1
+              </a>
+              <a
+                onClick={() => {
+                  setMenuOpen(false);
+                  setTheme("amiga");
+                }}
+              >
+                Thème Amiga
+              </a>
+            </div>
+          )}
+          <img src={theme === "amiga" ? amigaTitle : windowsTitle} className="amiga-title-img" alt="" />
+          <div className={theme + "-window-title-text"}>
             Amiga Démineur<span className="micro-text">© 2019 PhvSoftware</span>
           </div>
         </div>
-        <div className="grid-container">
+        <div className={theme + "-grid-container"}>
           <Score onStartButton={onStartButton} smiley={smiley} bombLeft={bombLeft} secElapsed={secElapsed} />
           <Grid setSmiley={setSmiley} game={game} setGame={setGame} bombLeft={bombLeft} setBombLeft={setBombLeft} />
         </div>
