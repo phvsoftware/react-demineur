@@ -3,19 +3,28 @@ import "./App.css";
 import Grid from "./composants/Grid";
 import Score from "./composants/Score";
 import amigaTitle from "./images/amiga-title.png";
+import amigaTitle2 from "./images/amiga-title-x2.png";
+import amigaTitle3 from "./images/amiga-title-x3.png";
 import windowsTitle from "./images/windows-title.png";
+import windowsTitle2 from "./images/windows-title-x2.png";
+import windowsTitle3 from "./images/windows-title-x3.png";
+import Popup from "./composants/Popup";
+import packageJson from "../package.json";
 
 let interval = null;
 let timer = 0;
 
 function App() {
-  const [game, setGame] = useState(0); // 0 = jeu en attente, 1 = jeu démarré, 2 = gagné, -1 = perdu
+  const [game, setGame] = useState(0); // 0 = jeu en attente, 1 = jeu démarré, 2 = gagné, -1 = perdu, 3 = redémarrer pour changer de niveau
   const [bombLeft, setBombLeft] = useState(0);
   const [secElapsed, setSecElapsed] = useState(0);
   const [smiley, setSmiley] = useState(1);
   const [theme, setTheme] = useState("amiga");
   const [menuOpen, setMenuOpen] = useState(false);
   const [level, setLevel] = useState("beginner");
+  const [showInfo, setShowInfo] = useState(false);
+
+  const version = packageJson.version;
 
   useEffect(() => {
     document.addEventListener("mousedown", clickOutsideMenu);
@@ -26,6 +35,12 @@ function App() {
       startTimer();
     } else if (game === 2 || game === -1) {
       stopTimer();
+    } else if (game === 3) {
+      stopTimer();
+      setSmiley(1);
+      setBombLeft(0);
+      setSecElapsed(0);
+      setGame(0);
     }
   }, [game]);
 
@@ -85,15 +100,6 @@ function App() {
             <div className="amiga-menu">
               <ul>
                 <li
-                  className={theme === "windows" ? "amiga-menu-item select" : "amiga-menu-item"}
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setTheme("windows");
-                  }}
-                >
-                  Thème Windows 3.1
-                </li>
-                <li
                   className={theme === "amiga" ? "amiga-menu-item select" : "amiga-menu-item"}
                   onClick={() => {
                     setMenuOpen(false);
@@ -102,39 +108,51 @@ function App() {
                 >
                   Thème Amiga
                 </li>
-                {/* <hr />
                 <li
-                  className={level === "beginner" ? "amiga-menu-item select" : "amiga-menu-item"}
+                  className={theme === "windows" ? "amiga-menu-item select" : "amiga-menu-item"}
                   onClick={() => {
                     setMenuOpen(false);
-                    setLevel("beginner");
+                    setTheme("windows");
                   }}
                 >
-                  Niveau débutant
+                  Thème Windows 3.1
                 </li>
-                <li
-                  className={level === "intermediate" ? "amiga-menu-item select" : "amiga-menu-item"}
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setLevel("intermediate");
-                  }}
-                >
-                  Niveau intermédiaire
-                </li>
-                <li
-                  className={level === "expert" ? "amiga-menu-item select" : "amiga-menu-item"}
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setLevel("expert");
-                  }}
-                >
-                  Niveau expert
-                </li> */}
                 <hr />
+                <div className="desktop-only">
+                  <li
+                    className={level === "beginner" ? "amiga-menu-item select" : "amiga-menu-item"}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setLevel("beginner");
+                    }}
+                  >
+                    Niveau débutant
+                  </li>
+                  <li
+                    className={level === "intermediate" ? "amiga-menu-item select" : "amiga-menu-item"}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setLevel("intermediate");
+                    }}
+                  >
+                    Niveau intermédiaire
+                  </li>
+                  <li
+                    className={level === "expert" ? "amiga-menu-item select" : "amiga-menu-item"}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setLevel("expert");
+                    }}
+                  >
+                    Niveau expert
+                  </li>
+                  <hr />
+                </div>
                 <li
                   className="amiga-menu-item"
                   onClick={() => {
                     setMenuOpen(false);
+                    setShowInfo(true);
                   }}
                 >
                   Informations...
@@ -142,7 +160,23 @@ function App() {
               </ul>
             </div>
           )}
-          <img src={theme === "amiga" ? amigaTitle : windowsTitle} className="amiga-title-img" alt="" />
+          <img
+            src={
+              theme === "amiga"
+                ? level === "beginner"
+                  ? amigaTitle
+                  : level === "intermediate"
+                  ? amigaTitle2
+                  : amigaTitle3
+                : level === "beginner"
+                ? windowsTitle
+                : level === "intermediate"
+                ? windowsTitle2
+                : windowsTitle3
+            }
+            className="amiga-title-img"
+            alt=""
+          />
           <div className={theme + "-window-title-text"}>
             Démineur<span className="micro-text">© 2019 PhvSoftware</span>
           </div>
@@ -160,6 +194,32 @@ function App() {
           />
         </div>
       </div>
+      <Popup show={showInfo} setShow={setShowInfo}>
+        <div>
+          <h1>Démineur</h1>
+          <h2>Version {version}</h2>
+          <p>
+            <u>Sur ordinateur :</u>
+            <br />
+            Click gauche pour découvrir une case.
+            <br />
+            Click droit pour poser ou enlever un drapeau. <br />
+            Vous disposez de 3 niveaux et 2 thèmes.
+          </p>
+          <p>
+            <u>Sur mobile :</u>
+            <br />
+            Appui court pour découvrir une case.
+            <br />
+            Appui long (1sec) pour poser ou enlever un drapeau. Une animation du smiley confirme l'action.
+            <br />
+            Vous disposez d'un seul niveau et 2 thèmes.
+          </p>
+          <p>
+            <small>&copy; 2019 PhvSoftware</small>
+          </p>
+        </div>
+      </Popup>
     </div>
   );
 }

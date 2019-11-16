@@ -175,13 +175,20 @@
   }
 }
 
+.invisible-menu:hover {
+  animation-iteration-count: unset;
+  background-color: rgba(0, 0, 0, 0.2);
+  filter: blur(3px);
+}
+
 .amiga-menu {
   display: flex;
   flex-direction: column;
+  min-width: 300px;
   max-width: 500px;
   margin: auto;
   background-color: #fff;
-  border: 1px solid black;
+  border: 2px solid black;
   color: white;
   overflow: hidden;
   position: absolute;
@@ -204,4 +211,18 @@
 .amiga-menu-item:hover {
   background-color: #ddd;
   color: black;
+}
+
+/* Smartphones et tablettes */
+@media (max-width: 560px) {
+  .desktop-only {
+    display: none;
+  }
+}
+
+/* Ordinateur */
+@media (min-width: 560px) {
+  .desktop-only {
+    display: block;
+  }
 }

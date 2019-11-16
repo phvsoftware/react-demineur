@@ -28,9 +28,10 @@ const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft, level, onStartB
       setNbCol(30);
       setNbRow(16);
     }
-    onStartButton();
-    setGrid(emptyGrid());
-    setFirstClick(false);
+    // onStartButton();
+    // setGrid(emptyGrid());
+    // setFirstClick(false);
+    setGame(3);
   }, [level]);
 
   // initialise une grille sans bombes pour le 1er click
