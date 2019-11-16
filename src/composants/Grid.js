@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Grid.css";
 import Cell from "./Cell";
 
-const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft, level, onStartButton }) => {
+const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft, level }) => {
   const [nbBomb, setNbBom] = useState(10);
   const [nbCol, setNbCol] = useState(9);
   const [nbRow, setNbRow] = useState(9);
@@ -28,9 +28,6 @@ const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft, level, onStartB
       setNbCol(30);
       setNbRow(16);
     }
-    // onStartButton();
-    // setGrid(emptyGrid());
-    // setFirstClick(false);
     setGame(3);
   }, [level]);
 
@@ -241,6 +238,11 @@ const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft, level, onStartB
     }
   };
 
+  let cellSize = "";
+  if (level !== "beginner") {
+    cellSize = "-mini";
+  }
+
   return (
     <div className="grid">
       {grid.map((row, index) => {
@@ -261,6 +263,7 @@ const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft, level, onStartB
                   onRightClick={onRightClick}
                   setSmiley={setSmiley}
                   game={game}
+                  cellSize={cellSize}
                 />
               );
             })}

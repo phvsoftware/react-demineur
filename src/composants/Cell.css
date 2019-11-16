@@ -18,6 +18,13 @@
   }
 }
 
+.cell-mini {
+  width: 25px;
+  height: 25px;
+  background-color: #c0c0c0;
+  position: relative;
+}
+
 .flat-border {
   border: 2px solid #999999;
 }
@@ -34,7 +41,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    object-fit: scale-down;
+    object-fit: contain;
     width: 30px;
     height: 30px;
   }
@@ -47,6 +54,15 @@
     left: 0;
     top: 0;
   }
+}
+
+.cell-mini img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  object-fit: contain;
+  width: 25px;
+  height: 25px;
 }
 
 /* Smartphones et tablettes */
@@ -70,6 +86,14 @@
     /* cursor: default; */
     user-select: none;
   }
+}
+
+.cell-mini h3 {
+  position: absolute;
+  left: 10px;
+  top: -16px;
+  font-size: 18px;
+  user-select: none;
 }
 
 .color1 {

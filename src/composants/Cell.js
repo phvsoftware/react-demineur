@@ -28,7 +28,7 @@ const Cell = props => {
 
   return (
     <div
-      className={props.revealed ? "cell flat-border" : "cell edge-border"}
+      className={props.revealed ? "cell" + props.cellSize + " flat-border" : "cell" + props.cellSize + " edge-border"}
       onClick={() => props.onLeftClick(props.posX, props.posY)}
       onMouseDown={event => {
         if (props.game === 1 && event.nativeEvent.which === 1 && !props.revealed) props.setSmiley(2);

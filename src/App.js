@@ -170,13 +170,13 @@ function App() {
                 ? level === "beginner"
                   ? amigaTitle
                   : level === "intermediate"
-                  ? amigaTitle2
-                  : amigaTitle3
+                  ? amigaTitle
+                  : amigaTitle2
                 : level === "beginner"
                 ? windowsTitle
                 : level === "intermediate"
-                ? windowsTitle2
-                : windowsTitle3
+                ? windowsTitle
+                : windowsTitle2
             }
             className="amiga-title-img"
             alt=""
@@ -194,7 +194,6 @@ function App() {
             bombLeft={bombLeft}
             setBombLeft={setBombLeft}
             level={level}
-            onStartButton={onStartButton}
           />
         </div>
       </div>
