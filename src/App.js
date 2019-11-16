@@ -181,9 +181,7 @@ function App() {
             className="amiga-title-img"
             alt=""
           />
-          <div className={theme + "-window-title-text"}>
-            Démineur<span className="micro-text">© 2019 PhvSoftware</span>
-          </div>
+          <div className={theme + "-window-title-text"}>Démineur</div>
         </div>
         <div className={theme + "-grid-container"}>
           <Score onStartButton={onStartButton} smiley={smiley} bombLeft={bombLeft} secElapsed={secElapsed} />
@@ -219,7 +217,7 @@ function App() {
             Vous disposez d'un seul niveau et 2 thèmes.
           </p>
           <p>
-            <small>&copy; 2019 PhvSoftware</small>
+            <small>&copy; 2019 PhVSoftware</small>
           </p>
         </div>
       </Popup>
