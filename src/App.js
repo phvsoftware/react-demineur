@@ -81,7 +81,11 @@ function App() {
   };
 
   const clickOutsideMenu = e => {
-    if (!e.target.className.includes("amiga-menu-item")) {
+    if (
+      !e.target.className.includes("amiga-menu-item") &&
+      !e.target.className.includes("amiga-menu") &&
+      !e.target.className.includes("amiga-menu-ul")
+    ) {
       setMenuOpen(false);
     }
   };
@@ -98,7 +102,7 @@ function App() {
           ></div>
           {menuOpen && (
             <div className="amiga-menu">
-              <ul>
+              <ul className="amiga-menu-ul">
                 <li
                   className={theme === "amiga" ? "amiga-menu-item select" : "amiga-menu-item"}
                   onClick={() => {
