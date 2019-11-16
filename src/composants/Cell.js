@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Cell.css";
 import mine_gris from "../images/mine_gris.bmp";
 import mine_rouge from "../images/mine_rouge.bmp";
@@ -8,8 +8,12 @@ import flag from "../images/drapeau.bmp";
 let buttonPressTimer = null;
 
 const Cell = props => {
+  const [longTouch, setLongTouch] = useState(false);
+
   const handleButtonPress = () => {
     if (props.game === 1) {
+      // on utilise le "touch" donc on désactive le contextmenu
+      setLongTouch(true);
       buttonPressTimer = setTimeout(() => {
         // fait clignoter le smiley pour qu'on voit que le drapeau a été posé sous son doigt
         props.setSmiley(2);
@@ -43,6 +47,7 @@ const Cell = props => {
       }}
       onContextMenu={event => {
         event.preventDefault();
+        if (longTouch) return;
         props.onRightClick(props.posX, props.posY);
       }}
     >
