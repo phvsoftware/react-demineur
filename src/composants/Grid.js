@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./Grid.css";
 import Cell from "./Cell";
 
-const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft }) => {
-  const nbBomb = 10;
-  const nbCol = 9;
-  const nbRow = 9;
+const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft, level, onStartButton }) => {
+  const [nbBomb, setNbBom] = useState(10);
+  const [nbCol, setNbCol] = useState(9);
+  const [nbRow, setNbRow] = useState(9);
 
   useEffect(() => {
     if (game === 0) {
@@ -13,6 +13,25 @@ const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft }) => {
       setFirstClick(false);
     }
   }, [game]);
+
+  useEffect(() => {
+    if (level === "beginner") {
+      setNbBom(10);
+      setNbCol(9);
+      setNbRow(9);
+    } else if (level === "intermediate") {
+      setNbBom(40);
+      setNbCol(16);
+      setNbRow(16);
+    } else if (level === "expert") {
+      setNbBom(99);
+      setNbCol(30);
+      setNbRow(16);
+    }
+    onStartButton();
+    setGrid(emptyGrid());
+    setFirstClick(false);
+  }, [level]);
 
   // initialise une grille sans bombes pour le 1er click
   const emptyGrid = () => {

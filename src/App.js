@@ -15,6 +15,11 @@ function App() {
   const [smiley, setSmiley] = useState(1);
   const [theme, setTheme] = useState("amiga");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [level, setLevel] = useState("beginner");
+
+  useEffect(() => {
+    document.addEventListener("mousedown", clickOutsideMenu);
+  }, []);
 
   useEffect(() => {
     if (game === 1) {
@@ -60,6 +65,12 @@ function App() {
     timer = 0;
   };
 
+  const clickOutsideMenu = e => {
+    if (!e.target.className.includes("amiga-menu-item")) {
+      setMenuOpen(false);
+    }
+  };
+
   return (
     <div className={theme + "-app disable-selection"}>
       <div className={theme + "-window-outer"}>
@@ -72,32 +83,81 @@ function App() {
           ></div>
           {menuOpen && (
             <div className="amiga-menu">
-              <a
-                onClick={() => {
-                  setMenuOpen(false);
-                  setTheme("windows");
-                }}
-              >
-                Thème Windows 3.1
-              </a>
-              <a
-                onClick={() => {
-                  setMenuOpen(false);
-                  setTheme("amiga");
-                }}
-              >
-                Thème Amiga
-              </a>
+              <ul>
+                <li
+                  className={theme === "windows" ? "amiga-menu-item select" : "amiga-menu-item"}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setTheme("windows");
+                  }}
+                >
+                  Thème Windows 3.1
+                </li>
+                <li
+                  className={theme === "amiga" ? "amiga-menu-item select" : "amiga-menu-item"}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setTheme("amiga");
+                  }}
+                >
+                  Thème Amiga
+                </li>
+                {/* <hr />
+                <li
+                  className={level === "beginner" ? "amiga-menu-item select" : "amiga-menu-item"}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setLevel("beginner");
+                  }}
+                >
+                  Niveau débutant
+                </li>
+                <li
+                  className={level === "intermediate" ? "amiga-menu-item select" : "amiga-menu-item"}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setLevel("intermediate");
+                  }}
+                >
+                  Niveau intermédiaire
+                </li>
+                <li
+                  className={level === "expert" ? "amiga-menu-item select" : "amiga-menu-item"}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setLevel("expert");
+                  }}
+                >
+                  Niveau expert
+                </li> */}
+                <hr />
+                <li
+                  className="amiga-menu-item"
+                  onClick={() => {
+                    setMenuOpen(false);
+                  }}
+                >
+                  Informations...
+                </li>
+              </ul>
             </div>
           )}
           <img src={theme === "amiga" ? amigaTitle : windowsTitle} className="amiga-title-img" alt="" />
           <div className={theme + "-window-title-text"}>
-            Amiga Démineur<span className="micro-text">© 2019 PhvSoftware</span>
+            Démineur<span className="micro-text">© 2019 PhvSoftware</span>
           </div>
         </div>
         <div className={theme + "-grid-container"}>
           <Score onStartButton={onStartButton} smiley={smiley} bombLeft={bombLeft} secElapsed={secElapsed} />
-          <Grid setSmiley={setSmiley} game={game} setGame={setGame} bombLeft={bombLeft} setBombLeft={setBombLeft} />
+          <Grid
+            setSmiley={setSmiley}
+            game={game}
+            setGame={setGame}
+            bombLeft={bombLeft}
+            setBombLeft={setBombLeft}
+            level={level}
+            onStartButton={onStartButton}
+          />
         </div>
       </div>
     </div>
