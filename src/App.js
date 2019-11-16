@@ -202,7 +202,7 @@ function App() {
           <h1>Démineur</h1>
           <h2>Version {version}</h2>
           <p>
-            <u>Sur ordinateur :</u>
+            <u>Sur ordinateur et tablette :</u>
             <br />
             Click gauche pour découvrir une case.
             <br />

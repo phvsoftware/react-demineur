@@ -202,6 +202,7 @@
   text-decoration: none;
   font-size: 17px;
   list-style: none;
+  cursor: pointer;
 }
 
 .amiga-menu-item.select {
