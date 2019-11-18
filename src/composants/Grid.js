@@ -116,6 +116,28 @@ const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft, level }) => {
   const [grid, setGrid] = useState(emptyGrid());
   const [firstClick, setFirstClick] = useState(false);
 
+  const isWin = tempGrid => {
+    // est ce qu'on a gagné ?
+    let won = true;
+    for (let y2 = 0; y2 < nbRow; y2++) {
+      for (let x2 = 0; x2 < nbCol; x2++) {
+        if (!tempGrid[y2][x2].revealed && (!tempGrid[y2][x2].bomb || !tempGrid[y2][x2].flag)) {
+          won = false;
+          break;
+        }
+      }
+      if (!won) {
+        break;
+      }
+    }
+    // on a gagné
+    if (won) {
+      setGame(2);
+      setSmiley(4);
+      console.log("gagné");
+    }
+  };
+
   const onLeftClick = (x, y) => {
     // si on a gagné ou perdu, on peut plus cliquer
     if (game === -1 || game === 2) return;
@@ -134,27 +156,10 @@ const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft, level }) => {
         if (cell.count === 0) {
           recurseReveale(tempGrid, x, y);
         } else {
-          tempGrid[y][x].revealed = true;
-          // est ce qu'on a gagné ?
-          let won = true;
-          for (let y2 = 0; y2 < nbRow; y2++) {
-            for (let x2 = 0; x2 < nbCol; x2++) {
-              if (!tempGrid[y2][x2].revealed && (!tempGrid[y2][x2].bomb || !tempGrid[y2][x2].flag)) {
-                won = false;
-                break;
-              }
-            }
-            if (!won) {
-              break;
-            }
-          }
-          // on a gagné
-          if (won) {
-            setGame(2);
-            setSmiley(4);
-            console.log("gagné 1");
-          }
+          cell.revealed = true;
         }
+        // gagné ?
+        isWin(tempGrid);
         setGrid(tempGrid);
       } else if (tempGrid[y][x].bomb && !cell.revealed && !cell.flag) {
         // on clique sur une mine ! (seulement si pas de drapeau)
@@ -202,10 +207,8 @@ const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft, level }) => {
       setFirstClick(true);
     } else {
       const tempGrid = [...grid];
-      // récupère la case qu'on a cliqué
-      const cell = tempGrid[y][x];
-      // on clique sur une non révélée
-      if (!cell.revealed && ((!tempGrid[y][x].flag && bombLeft > 0) || tempGrid[y][x].flag)) {
+      // on clique sur case une non révélée
+      if (!tempGrid[y][x].revealed && ((!tempGrid[y][x].flag && bombLeft > 0) || tempGrid[y][x].flag)) {
         // on pose / enlève un drapeau
         if (!tempGrid[y][x].flag) {
           setBombLeft(bombLeft - 1);
@@ -216,24 +219,7 @@ const Grid = ({ setSmiley, game, setGame, bombLeft, setBombLeft, level }) => {
         setGrid(tempGrid);
 
         // est ce qu'on a gagné ?
-        let won = true;
-        for (let y2 = 0; y2 < nbRow; y2++) {
-          for (let x2 = 0; x2 < nbCol; x2++) {
-            if (!tempGrid[y2][x2].revealed && (!tempGrid[y2][x2].bomb || !tempGrid[y2][x2].flag)) {
-              won = false;
-              break;
-            }
-          }
-          if (!won) {
-            break;
-          }
-        }
-        // on a gagné
-        if (won) {
-          setGame(2);
-          setSmiley(4);
-          console.log("gagné 2");
-        }
+        isWin(tempGrid);
       }
     }
   };

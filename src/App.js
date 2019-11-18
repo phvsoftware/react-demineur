@@ -4,10 +4,8 @@ import Grid from "./composants/Grid";
 import Score from "./composants/Score";
 import amigaTitle from "./images/amiga-title.png";
 import amigaTitle2 from "./images/amiga-title-x2.png";
-import amigaTitle3 from "./images/amiga-title-x3.png";
 import windowsTitle from "./images/windows-title.png";
 import windowsTitle2 from "./images/windows-title-x2.png";
-import windowsTitle3 from "./images/windows-title-x3.png";
 import Popup from "./composants/Popup";
 import packageJson from "../package.json";
 
