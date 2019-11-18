@@ -6,6 +6,8 @@ import amigaTitle from "./images/amiga-title.png";
 import amigaTitle2 from "./images/amiga-title-x2.png";
 import windowsTitle from "./images/windows-title.png";
 import windowsTitle2 from "./images/windows-title-x2.png";
+import macTitle from "./images/mac-title.png";
+import macTitle2 from "./images/mac-title-x2.png";
 import Popup from "./composants/Popup";
 import packageJson from "../package.json";
 
@@ -119,6 +121,15 @@ function App() {
                 >
                   Thème Windows 3.1
                 </li>
+                <li
+                  className={theme === "mac" ? "amiga-menu-item select" : "amiga-menu-item"}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setTheme("mac");
+                  }}
+                >
+                  Thème System 7
+                </li>
                 <hr />
                 <div className="desktop-only">
                   <li
@@ -170,11 +181,17 @@ function App() {
                   : level === "intermediate"
                   ? amigaTitle
                   : amigaTitle2
+                : theme === "windows"
+                ? level === "beginner"
+                  ? windowsTitle
+                  : level === "intermediate"
+                  ? windowsTitle
+                  : windowsTitle2
                 : level === "beginner"
-                ? windowsTitle
+                ? macTitle
                 : level === "intermediate"
-                ? windowsTitle
-                : windowsTitle2
+                ? macTitle
+                : macTitle2
             }
             className="amiga-title-img"
             alt=""
@@ -203,7 +220,7 @@ function App() {
             Click gauche pour découvrir une case.
             <br />
             Click droit pour poser ou enlever un drapeau. <br />
-            Vous disposez de 3 niveaux et 2 thèmes.
+            Vous disposez de 3 niveaux et 3 thèmes.
           </p>
           <p>
             <u>Sur mobile :</u>
@@ -212,7 +229,7 @@ function App() {
             <br />
             Appui long (1sec) pour poser ou enlever un drapeau. Une animation du smiley confirme l'action.
             <br />
-            Vous disposez d'un seul niveau et 2 thèmes.
+            Vous disposez d'un seul niveau et 3 thèmes.
           </p>
           <p>
             <small>&copy; 2019 PhVSoftware</small>
