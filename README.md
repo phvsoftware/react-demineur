@@ -1,4 +1,4 @@
-## Jeu de pendu
+## Jeu du démineur
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
